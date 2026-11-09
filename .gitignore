@@ -10,9 +10,5 @@ obj/
 # OS-generated files
 .DS_Store
 
-# Local agent tooling
-/.agents/
-/skills-lock.json
-
 # Assignment evidence is submitted separately.
 /submission/
