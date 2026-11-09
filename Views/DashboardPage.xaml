@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:MauiBackgroundSalesDemo.Models"
+             xmlns:vm="clr-namespace:MauiBackgroundSalesDemo.ViewModels"
+             xmlns:views="clr-namespace:MauiBackgroundSalesDemo.Views"
+             x:Class="MauiBackgroundSalesDemo.Views.DashboardPage"
+             x:DataType="vm:DashboardViewModel"
+             Title="Dashboard"
+             Background="#F4F7FB">
+    <ContentPage.Resources>
+        <DataTemplate x:Key="ChartHeadingTemplate" x:DataType="models:SalesChartHeading">
+            <Label Text="{Binding Title}"
+                   Margin="24,16,24,4"
+                   TextColor="#15263B"
+                   FontFamily="OpenSansSemibold"
+                   FontSize="19"
+                   SemanticProperties.HeadingLevel="Level2" />
+        </DataTemplate>
+        <DataTemplate x:Key="ChartItemTemplate" x:DataType="models:SalesChartItem">
+            <Grid Padding="24,4,24,8" RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto"
+                  ColumnSpacing="12" RowSpacing="5">
+                <Label Text="{Binding Name}" TextColor="#15263B" FontSize="14" />
+                <Label Grid.Column="1" Text="{Binding Detail}" TextColor="#4B5D73" FontSize="13" />
+                <ProgressBar Grid.Row="1" Grid.ColumnSpan="2"
+                             Progress="{Binding Progress}"
+                             ProgressColor="#175CD3" />
+            </Grid>
+        </DataTemplate>
+        <views:SalesChartTemplateSelector x:Key="ChartTemplateSelector"
+                                          HeadingTemplate="{StaticResource ChartHeadingTemplate}"
+                                          ItemTemplate="{StaticResource ChartItemTemplate}" />
+    </ContentPage.Resources>
+    <Grid>
+        <CollectionView AutomationId="DashboardCharts"
+                        ItemsSource="{Binding ChartRows}"
+                        ItemTemplate="{StaticResource ChartTemplateSelector}"
+                        SelectionMode="None">
+            <CollectionView.Header>
+                <VerticalStackLayout Padding="24,20,24,8" Spacing="14">
+                    <Label Text="Sales dashboard"
+                           TextColor="#15263B"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="26"
+                           SemanticProperties.HeadingLevel="Level1" />
+                    <Label Text="Daily, product, and category summaries from SQLite."
+                           TextColor="#4B5D73"
+                           FontSize="14" />
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+                        <Border Grid.Row="0" Grid.Column="0" Background="White"
+                                Stroke="#D6E0EA" StrokeShape="RoundRectangle 10" Padding="14">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="REVENUE" TextColor="#4B5D73" FontSize="12" />
+                                <Label AutomationId="DashboardRevenueLabel" Text="{Binding TotalRevenue}"
+                                       TextColor="#15263B" FontFamily="OpenSansSemibold" FontSize="20" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border Grid.Row="0" Grid.Column="1" Background="White"
+                                Stroke="#D6E0EA" StrokeShape="RoundRectangle 10" Padding="14">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="TRANSACTIONS" TextColor="#4B5D73" FontSize="12" />
+                                <Label AutomationId="DashboardTransactionsLabel" Text="{Binding TransactionCount}"
+                                       TextColor="#15263B" FontFamily="OpenSansSemibold" FontSize="20" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border Grid.Row="1" Grid.Column="0" Background="White"
+                                Stroke="#D6E0EA" StrokeShape="RoundRectangle 10" Padding="14">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="AVERAGE SALE" TextColor="#4B5D73" FontSize="12" />
+                                <Label AutomationId="DashboardAverageLabel" Text="{Binding AverageSale}"
+                                       TextColor="#15263B" FontFamily="OpenSansSemibold" FontSize="20" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border Grid.Row="1" Grid.Column="1" Background="White"
+                                Stroke="#D6E0EA" StrokeShape="RoundRectangle 10" Padding="14">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="TOP PRODUCT" TextColor="#4B5D73" FontSize="12" />
+                                <Label AutomationId="DashboardTopProductLabel" Text="{Binding TopProduct}"
+                                       TextColor="#15263B" FontFamily="OpenSansSemibold" FontSize="20" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                        <Label AutomationId="DashboardStatusLabel"
+                               Text="{Binding StatusMessage}"
+                               TextColor="#4B5D73"
+                               VerticalOptions="Center" />
+                        <Button Grid.Column="1"
+                                AutomationId="DashboardRefreshButton"
+                                Text="Refresh"
+                                Command="{Binding RefreshCommand}"
+                                Background="#175CD3"
+                                TextColor="White" />
+                    </Grid>
+                </VerticalStackLayout>
+            </CollectionView.Header>
+        </CollectionView>
+    </Grid>
+</ContentPage>

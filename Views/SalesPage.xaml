@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MauiBackgroundSalesDemo.ViewModels"
+             x:Class="MauiBackgroundSalesDemo.Views.SalesPage"
+             x:DataType="vm:SalesViewModel"
+             Title="Sales"
+             Background="#F4F7FB">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="24,20,24,24" Spacing="14"
+                                 MaximumWidthRequest="680" HorizontalOptions="Center">
+                <Label Text="Record a sale"
+                       TextColor="#15263B"
+                       FontFamily="OpenSansSemibold"
+                       FontSize="26"
+                       SemanticProperties.HeadingLevel="Level1" />
+                <Label Text="Sales are saved to LiteDB and summarized for the dashboard."
+                       TextColor="#4B5D73" FontSize="14" />
+                <Border Background="White" Stroke="#D6E0EA" StrokeShape="RoundRectangle 10" Padding="20">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Product" TextColor="#15263B" FontFamily="OpenSansSemibold" />
+                        <Picker AutomationId="ProductPicker"
+                                Title="Select a product"
+                                TitleColor="#52657A"
+                                TextColor="#15263B"
+                                Background="White"
+                                ItemsSource="{Binding Products}"
+                                SelectedItem="{Binding SelectedProduct}" />
+                        <Label Text="Unit price" TextColor="#15263B" FontFamily="OpenSansSemibold" />
+                        <Entry AutomationId="UnitPriceEntry"
+                               Placeholder="Enter a unit price"
+                               PlaceholderColor="#52657A"
+                               TextColor="#15263B"
+                               Background="White"
+                               Keyboard="Numeric"
+                               Text="{Binding UnitPriceText}" />
+                        <Label Text="Quantity" TextColor="#15263B" FontFamily="OpenSansSemibold" />
+                        <Entry AutomationId="QuantityEntry"
+                               Placeholder="Enter a whole number"
+                               PlaceholderColor="#52657A"
+                               TextColor="#15263B"
+                               Background="White"
+                               Keyboard="Numeric"
+                               Text="{Binding QuantityText}" />
+                        <Button AutomationId="SaveSaleButton"
+                                Text="Save sale"
+                                Command="{Binding AddTransactionCommand}"
+                                Background="#175CD3"
+                                TextColor="White"
+                                Margin="0,8,0,0" />
+                        <Label AutomationId="SaleStatusLabel"
+                               Text="{Binding StatusMessage}"
+                               TextColor="#15263B"
+                               LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
